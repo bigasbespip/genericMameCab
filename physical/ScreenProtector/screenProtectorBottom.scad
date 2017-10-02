@@ -3,11 +3,12 @@
 // all dimensions in mm
 width = 750;
 totalHeight = 700;
-buttonDia = 22;
+buttonDia = 24;
 bottomHeight = 250;
 screwDia = 5;
 screwFromEdge = 8;
 screwFromWideEdge = 10;
+buttonBottomOffset = 50;
 //
 main();
 
@@ -15,14 +16,25 @@ module main()
 {
     difference(){
         base();
-        screwHoles();
+        union()
+        {
+            screwHoles();
+            buttonHole();
+        }
     }
 }
 
+module buttonHole()
+{
+    translate([width/2,buttonBottomOffset,0])
+    {
+        circle(d=buttonDia);
+    }
+}
 
 module base()
 {
-    square([width, totalHeight-bottomHeight]);
+    square([width, bottomHeight]);
 }
 
 module screwHoles()
@@ -31,11 +43,11 @@ module screwHoles()
     {
         circle(d=screwDia);
     }
-    translate([screwFromEdge, (totalHeight - bottomHeight) - screwFromWideEdge,0])
+    translate([screwFromEdge, (bottomHeight) - screwFromWideEdge,0])
     {
         circle(d=screwDia);
     }
-    translate([width - screwFromEdge, (totalHeight - bottomHeight) - screwFromWideEdge,0])
+    translate([width - screwFromEdge, (bottomHeight) - screwFromWideEdge,0])
     {
         circle(d=screwDia);
     }
